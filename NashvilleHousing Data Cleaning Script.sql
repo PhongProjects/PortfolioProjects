@@ -7,8 +7,8 @@ SELECT A.ParcelID,
 	   B.PropertyAddress
 FROM PortfolioProject.dbo.NashvilleHousing A
 JOIN PortfolioProject.dbo.NashvilleHousing B
-	On A.ParcelID = B.ParcelID
-    And A.UniqueID <> B.UniqueID
+	ON A.ParcelID = B.ParcelID
+    AND A.UniqueID <> B.UniqueID
 WHERE A.PropertyAddress IS NULL
 
 SELECT A.ParcelID, 
@@ -18,7 +18,7 @@ SELECT A.ParcelID,
 	   ISNULL(B.PropertyAddress, A.PropertyAddress)
 FROM PortfolioProject.dbo.NashvilleHousing A
 JOIN PortfolioProject.dbo.NashvilleHousing B
-	On A.ParcelID = B.ParcelID
+	ON A.ParcelID = B.ParcelID
 	AND A.UniqueID <> B.UniqueID
 WHERE A.PropertyAddress IS NULL
 ------------------------------------------------------------------------------------------------------------------
@@ -28,7 +28,7 @@ UPDATE A
 SET PropertyAddress = ISNULL(B.PropertyAddress, A.PropertyAddress)
 FROM PortfolioProject.dbo.NashvilleHousing A
 JOIN PortfolioProject.dbo.NashvilleHousing B
-	On A.ParcelID = B.ParcelID
+	ON A.ParcelID = B.ParcelID
 	AND A.UniqueID <> B.UniqueID
 ------------------------------------------------------------------------------------------------------------------
 --STANDARDIZING OR NORMALIZING DATA
