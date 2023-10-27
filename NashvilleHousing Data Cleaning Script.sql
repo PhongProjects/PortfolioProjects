@@ -87,10 +87,10 @@ SET PropertySplitCity = SUBSTRING(PropertyAddress, CHARINDEX(',', PropertyAddres
 ------------------------------------------------------------------------------------------------------------------
 --SPLITTING OWNER ADDRESS INTO INDIVIDUAL COLUMN & REPLACING COMMA FOR PERIOD USING PARSENAME
 
-Select PARSENAME(REPLACE(OwnerAddress, ',', '.'), 3) as OwnerStreetNameSplit,
-       PARSENAME(REPLACE(OwnerAddress, ',', '.'), 2) as OwnerCitySplit,
-	   PARSENAME(REPLACE(OwnerAddress, ',', '.'), 1) as OwnerStateSplit,
-From PortfolioProject.dbo.NashvilleHousing
+SELECT PARSENAME(REPLACE(OwnerAddress, ',', '.'), 3) AS OwnerStreetNameSplit,
+       PARSENAME(REPLACE(OwnerAddress, ',', '.'), 2) AS OwnerCitySplit,
+	   PARSENAME(REPLACE(OwnerAddress, ',', '.'), 1) AS OwnerStateSplit,
+FROM PortfolioProject.dbo.NashvilleHousing
 
 ALTER TABLE PortfolioProject.dbo.NashvilleHousing
 ADD OwnerStreetNameSplit VARCHAR(255);
@@ -137,18 +137,18 @@ SET SoldAsVacant = CASE WHEN SoldAsVacant = 'Y' THEN 'Yes'
 ------------------------------------------------------------------------------------------------------------------
 --SHOW DUPLICATES USING HAVING CLAUSE OR ROW_NUMBER FUNCTION
 
-Select LegalReference, PropertyAddress, SaleDate, SalePrice, Count(*) AS RowNum
-From PortfolioProject.dbo.NashVilleHousing
-Group By LegalReference, PropertyAddress, SaleDate, SalePrice
-Having Count(*) > 1
-Order by PropertyAddress, RowNum DESC
+SELECT LegalReference, PropertyAddress, SaleDate, SalePrice, COUNT(*) AS RowNum
+FROM PortfolioProject.dbo.NashVilleHousing
+GROUP BY LegalReference, PropertyAddress, SaleDate, SalePrice
+HAVING COUNT(*) > 1
+OORDER BY PropertyAddress, RowNum DESC
 
 WITH CTE AS (
 SELECT LegalReference, 
 	   PropertyAddress, 
 	   SaleDate, 
 	   SalePrice, 
-	   ROW_NUMBER() OVER (Partition by LegalReference, 
+	   ROW_NUMBER() OVER (PARTITION BY LegalReference, 
 									   PropertyAddress, 
 									   SaleDate, 
 									   SalePrice
@@ -165,8 +165,8 @@ SELECT LegalReference,
 	   SaleDate, 
 	   SalePrice,
 	   ROW_NUMBER() OVER (PARTITION BY LegalReference, PropertyAddress, SaleDate ORDER BY LegalReference) RowNum
-From PortfolioProject.dbo.NashVilleHousing
-Order by LegalReference
+FROM PortfolioProject.dbo.NashVilleHousing
+ORDER BY LegalReference
 
 WITH CTE AS 
 (
